@@ -7,435 +7,284 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #080810; color: #e0e0f0; font-family: 'Rajdhani', sans-serif; }
 
-        body {
-            background-color: #080810;
-            color: #e0e0f0;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        /* TOPBAR */
         .topbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 56px;
-            background: rgba(8,8,16,0.95);
-            border-bottom: 1px solid rgba(0,245,255,0.15);
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            z-index: 100;
+            position: fixed; top: 0; left: 0; right: 0; height: 56px;
+            background: rgba(8,8,16,0.95); border-bottom: 1px solid rgba(0,245,255,0.15);
+            display: flex; align-items: center; padding: 0 20px; z-index: 100;
+        }
+        .logo { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.3rem; letter-spacing: 3px; color: #00f5ff; }
+        .game-count {
+            margin-left: 16px; font-family: 'Orbitron', monospace; font-size: 0.6rem;
+            letter-spacing: 2px; color: #00f5ff; border: 1px solid rgba(0,245,255,0.3);
+            padding: 4px 10px; border-radius: 2px; animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(0,245,255,0.3); }
+            50% { border-color: rgba(0,245,255,0.8); box-shadow: 0 0 8px rgba(0,245,255,0.3); }
         }
 
-        .logo {
-            font-family: 'Orbitron', monospace;
-            font-weight: 900;
-            font-size: 1.3rem;
-            letter-spacing: 3px;
-            color: #00f5ff;
-        }
-
-        /* SIDEBAR */
         #sidebar {
-            position: fixed;
-            top: 56px; left: 0; bottom: 0;
-            width: 220px;
-            background-color: #0e0e1a;
-            border-right: 1px solid rgba(0,245,255,0.08);
-            padding: 20px 0;
-            overflow-y: auto;
+            position: fixed; top: 56px; left: 0; bottom: 0; width: 220px;
+            background-color: #0e0e1a; border-right: 1px solid rgba(0,245,255,0.08);
+            padding: 20px 0; overflow-y: auto;
         }
-
         .sidebar-label {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.5rem;
-            letter-spacing: 3px;
-            color: #555570;
-            padding: 0 18px;
-            margin: 12px 0 6px;
-            text-transform: uppercase;
+            font-family: 'Orbitron', monospace; font-size: 0.5rem; letter-spacing: 3px;
+            color: #555570; padding: 0 18px; margin: 12px 0 6px; text-transform: uppercase;
         }
-
         .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 18px;
-            cursor: pointer;
-            border-left: 2px solid transparent;
-            color: #8888aa;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.2s;
-            user-select: none;
+            display: flex; align-items: center; gap: 12px; padding: 11px 18px;
+            cursor: pointer; border-left: 2px solid transparent; color: #8888aa;
+            font-size: 1rem; font-weight: 600; transition: all 0.2s; user-select: none;
         }
+        .nav-item:hover { background-color: rgba(0,245,255,0.04); color: #e0e0f0; border-left: 2px solid rgba(0,245,255,0.4); }
+        .nav-item.active { color: #00f5ff; border-left: 2px solid #00f5ff; background-color: rgba(0,245,255,0.06); }
 
-        .nav-item:hover {
-            background-color: rgba(0,245,255,0.04);
-            color: #e0e0f0;
-            border-left: 2px solid rgba(0,245,255,0.4);
-        }
+        #main { margin-left: 220px; margin-top: 56px; padding: 28px; }
+        .section-title { font-family: 'Orbitron', monospace; font-size: 0.75rem; letter-spacing: 3px; color: #00f5ff; margin-bottom: 16px; }
 
-        .nav-item.active {
-            color: #00f5ff;
-            border-left: 2px solid #00f5ff;
-            background-color: rgba(0,245,255,0.06);
-        }
-
-        /* MAIN */
-        #main {
-            margin-left: 220px;
-            margin-top: 56px;
-            padding: 28px;
-        }
-
-        .section-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            color: #00f5ff;
-            margin-bottom: 16px;
-        }
-
-        /* CATEGORY CHIPS */
-        .categories {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-
+        .categories { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
         .chip {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 1.5px;
-            padding: 6px 14px;
-            border-radius: 2px;
-            border: 1px solid rgba(0,245,255,0.15);
-            color: #555570;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            background: #13131f;
-            user-select: none;
+            font-family: 'Orbitron', monospace; font-size: 0.6rem; letter-spacing: 1.5px;
+            padding: 6px 14px; border-radius: 2px; border: 1px solid rgba(0,245,255,0.15);
+            color: #555570; cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+            background: #13131f; user-select: none;
         }
+        .chip:hover { border-color: #00f5ff; color: #00f5ff; }
+        .chip.active { border-color: #00f5ff; color: #00f5ff; background: rgba(0,245,255,0.06); }
 
-        .chip:hover {
-            border-color: #00f5ff;
-            color: #00f5ff;
-        }
-
-        .chip.active {
-            border-color: #00f5ff;
-            color: #00f5ff;
-            background: rgba(0,245,255,0.06);
-        }
-
-        /* GAME GRID — rows layout */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
+        .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
         .game-card {
-            background-color: #13131f;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 6px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.25s;
+            background-color: #13131f; border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px; overflow: hidden; cursor: pointer; transition: all 0.25s;
         }
-
-        .game-card:hover {
-            border-color: rgba(0,245,255,0.3);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-        }
-
+        .game-card:hover { border-color: rgba(0,245,255,0.3); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
         .game-card.hidden { display: none; }
 
         .game-thumb {
-            width: 100%;
-            aspect-ratio: 16/10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            position: relative;
+            width: 100%; aspect-ratio: 16/10; display: flex; align-items: center;
+            justify-content: center; font-size: 2.5rem; position: relative;
         }
-
         .game-thumb::after {
-            content: '▶  PLAY';
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 3px;
-            color: #00f5ff;
-            opacity: 0;
-            transition: opacity 0.2s;
+            content: '▶  PLAY'; position: absolute; inset: 0; background: rgba(0,0,0,0.7);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 3px;
+            color: #00f5ff; opacity: 0; transition: opacity 0.2s;
         }
-
         .game-card:hover .game-thumb::after { opacity: 1; }
-
         .game-info { padding: 10px 12px; }
-
-        .game-name {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 1px;
-            color: #e0e0f0;
-            margin-bottom: 4px;
-        }
-
+        .game-name { font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 1px; color: #e0e0f0; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .game-cat { font-size: 0.7rem; color: #555570; }
 
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.95);
-            z-index: 999;
-            flex-direction: column;
-        }
-
-        .modal.open { display: flex; }
-
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 20px;
-            background: #0e0e1a;
-            border-bottom: 1px solid rgba(0,245,255,0.15);
-        }
-
-        .modal-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: #00f5ff;
-        }
-
-        .modal-close {
-            background: none;
-            border: 1px solid rgba(0,245,255,0.3);
-            color: #00f5ff;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.7rem;
-            padding: 6px 14px;
-            cursor: pointer;
-            border-radius: 3px;
-            transition: all 0.2s;
-        }
-
-        .modal-close:hover { background: rgba(0,245,255,0.1); }
-        .modal iframe { flex: 1; border: none; width: 100%; }
-
-        /* Thumbnail colors */
         .t1 { background: linear-gradient(135deg, #0a1a0a, #0a3a1a); }
         .t2 { background: linear-gradient(135deg, #0a0a20, #1a0a3a); }
         .t3 { background: linear-gradient(135deg, #1a0a0a, #2a0a1a); }
         .t4 { background: linear-gradient(135deg, #0a1020, #0a2030); }
         .t5 { background: linear-gradient(135deg, #1a1a0a, #2a1a0a); }
         .t6 { background: linear-gradient(135deg, #1a1a1a, #2a2a2a); }
+        .t7 { background: linear-gradient(135deg, #0a2a1a, #0a3a2a); }
+        .t8 { background: linear-gradient(135deg, #2a1a0a, #3a2a0a); }
+
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 999; flex-direction: column; }
+        .modal.open { display: flex; }
+        .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: #0e0e1a; border-bottom: 1px solid rgba(0,245,255,0.15); }
+        .modal-title { font-family: 'Orbitron', monospace; font-size: 0.8rem; letter-spacing: 2px; color: #00f5ff; }
+        .modal-close { background: none; border: 1px solid rgba(0,245,255,0.3); color: #00f5ff; font-family: 'Orbitron', monospace; font-size: 0.7rem; padding: 6px 14px; cursor: pointer; border-radius: 3px; transition: all 0.2s; letter-spacing: 1px; }
+        .modal-close:hover { background: rgba(0,245,255,0.1); }
+        .modal iframe { flex: 1; border: none; width: 100%; }
     </style>
 </head>
 <body>
 
-    <!-- TOPBAR -->
-    <div class="topbar">
-        <div class="logo">GAME HUB</div>
+<div class="topbar">
+    <div class="logo">GAME HUB</div>
+    <div class="game-count">▸ 30 GAMES</div>
+</div>
+
+<div id="sidebar">
+    <div class="sidebar-label">Navigate</div>
+    <div class="nav-item active" data-filter="all">⊞ All Games</div>
+    <div class="sidebar-label">Categories</div>
+    <div class="nav-item" data-filter="puzzle">🧩 Puzzle</div>
+    <div class="nav-item" data-filter="arcade">🕹️ Arcade</div>
+    <div class="nav-item" data-filter="strategy">♟️ Strategy</div>
+    <div class="nav-item" data-filter="action">⚔️ Action</div>
+    <div class="nav-item" data-filter="casual">🎲 Casual</div>
+    <div class="nav-item" data-filter="word">🔤 Word</div>
+    <div class="nav-item" data-filter="skill">⌨️ Skill</div>
+    <div class="nav-item" data-filter="number">🔢 Number</div>
+</div>
+
+<div id="main">
+    <div class="categories">
+        <div class="chip active" data-filter="all">All</div>
+        <div class="chip" data-filter="puzzle">Puzzle</div>
+        <div class="chip" data-filter="arcade">Arcade</div>
+        <div class="chip" data-filter="strategy">Strategy</div>
+        <div class="chip" data-filter="action">Action</div>
+        <div class="chip" data-filter="casual">Casual</div>
+        <div class="chip" data-filter="word">Word</div>
+        <div class="chip" data-filter="skill">Skill</div>
+        <div class="chip" data-filter="number">Number</div>
     </div>
 
-    <!-- SIDEBAR -->
-    <div id="sidebar">
-        <div class="sidebar-label">Navigate</div>
-        <div class="nav-item active" data-filter="all">⊞ All Games</div>
-        <div class="nav-item" data-filter="arcade">🕹️ Arcade</div>
-        <div class="nav-item" data-filter="puzzle">🧩 Puzzle</div>
-        <div class="nav-item" data-filter="strategy">♟️ Strategy</div>
-        <div class="nav-item" data-filter="action">⚔️ Action</div>
-        <div class="nav-item" data-filter="casual">🎲 Casual</div>
-        <div class="nav-item" data-filter="word">🔤 Word</div>
-        <div class="nav-item" data-filter="skill">⌨️ Skill</div>
-    </div>
+    <div class="section-title" id="sectionTitle">ALL GAMES — 30</div>
 
-    <!-- MAIN -->
-    <div id="main">
-
-        <!-- Category chips -->
-        <div class="categories">
-            <div class="chip active" data-filter="all">All</div>
-            <div class="chip" data-filter="arcade">Arcade</div>
-            <div class="chip" data-filter="puzzle">Puzzle</div>
-            <div class="chip" data-filter="strategy">Strategy</div>
-            <div class="chip" data-filter="action">Action</div>
-            <div class="chip" data-filter="casual">Casual</div>
-            <div class="chip" data-filter="word">Word</div>
-            <div class="chip" data-filter="skill">Skill</div>
+    <div class="game-grid" id="gameGrid">
+        <!-- PUZZLE (6) -->
+        <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/2048-Game/index.html','2048')">
+            <div class="game-thumb t1">🔢</div><div class="game-info"><div class="game-name">2048</div><div class="game-cat">Puzzle</div></div>
+        </div>
+        <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Tetris-Game/index.html','TETRIS')">
+            <div class="game-thumb t2">🟦</div><div class="game-info"><div class="game-name">TETRIS</div><div class="game-cat">Puzzle</div></div>
+        </div>
+        <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Memory-Card-Game/index.html','MEMORY CARDS')">
+            <div class="game-thumb t4">🃏</div><div class="game-info"><div class="game-name">MEMORY CARDS</div><div class="game-cat">Puzzle</div></div>
+        </div>
+        <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Minesweeper-Game/index.html','MINESWEEPER')">
+            <div class="game-thumb t1">💣</div><div class="game-info"><div class="game-name">MINESWEEPER</div><div class="game-cat">Puzzle</div></div>
+        </div>
+        <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Candy-Crush-Game/index.html','CANDY CRUSH')">
+            <div class="game-thumb t3">🍬</div><div class="game-info"><div class="game-name">CANDY CRUSH</div><div class="game-cat">Puzzle</div></div>
+        </div>
+        <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Tilting-Maze-Game/index.html','TILTING MAZE')">
+            <div class="game-thumb t7">🌀</div><div class="game-info"><div class="game-name">TILTING MAZE</div><div class="game-cat">Puzzle</div></div>
         </div>
 
-        <div class="section-title" id="sectionTitle">ALL GAMES</div>
+        <!-- ARCADE (8) -->
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Flappy-Bird-Game/index.html','FLAPPY BIRD')">
+            <div class="game-thumb t2">🐦</div><div class="game-info"><div class="game-name">FLAPPY BIRD</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Snake-Game/index.html','SNAKE')">
+            <div class="game-thumb t1">🐍</div><div class="game-info"><div class="game-name">SNAKE</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Ping-Pong-Game/index.html','PING PONG')">
+            <div class="game-thumb t4">🏓</div><div class="game-info"><div class="game-name">PING PONG</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Breakout-Game/index.html','BREAKOUT')">
+            <div class="game-thumb t5">🧱</div><div class="game-info"><div class="game-name">BREAKOUT</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Whack-A-Mole-Game/index.html','WHACK A MOLE')">
+            <div class="game-thumb t3">🦔</div><div class="game-info"><div class="game-name">WHACK A MOLE</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Crossy-Road-Game/index.html','CROSSY ROAD')">
+            <div class="game-thumb t8">🐸</div><div class="game-info"><div class="game-name">CROSSY ROAD</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Emoji-Catcher-Game/index.html','EMOJI CATCHER')">
+            <div class="game-thumb t2">😄</div><div class="game-info"><div class="game-name">EMOJI CATCHER</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Insect-Catch-Game/index.html','INSECT CATCH')">
+            <div class="game-thumb t1">🐛</div><div class="game-info"><div class="game-name">INSECT CATCH</div><div class="game-cat">Arcade</div></div>
+        </div>
+        <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Shape-Clicker-Game/index.html','SHAPE CLICKER')">
+            <div class="game-thumb t4">🔷</div><div class="game-info"><div class="game-name">SHAPE CLICKER</div><div class="game-cat">Arcade</div></div>
+        </div>
 
-        <div class="game-grid" id="gameGrid">
-            <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/2048-Game/index.html', '2048')">
-                <div class="game-thumb t1">🔢</div>
-                <div class="game-info"><div class="game-name">2048</div><div class="game-cat">Puzzle</div></div>
-            </div>
-            <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Flappy-Bird-Game/index.html', 'FLAPPY BIRD')">
-                <div class="game-thumb t2">🐦</div>
-                <div class="game-info"><div class="game-name">FLAPPY BIRD</div><div class="game-cat">Arcade</div></div>
-            </div>
-            <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Snake-Game/index.html', 'SNAKE')">
-                <div class="game-thumb t1">🐍</div>
-                <div class="game-info"><div class="game-name">SNAKE</div><div class="game-cat">Arcade</div></div>
-            </div>
-            <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Tetris-Game/index.html', 'TETRIS')">
-                <div class="game-thumb t2">🟦</div>
-                <div class="game-info"><div class="game-name">TETRIS</div><div class="game-cat">Puzzle</div></div>
-            </div>
-            <div class="game-card" data-cat="strategy" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Chess/index.html', 'CHESS')">
-                <div class="game-thumb t6">♟️</div>
-                <div class="game-info"><div class="game-name">CHESS</div><div class="game-cat">Strategy</div></div>
-            </div>
-            <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Ping-Pong-Game/index.html', 'PING PONG')">
-                <div class="game-thumb t4">🏓</div>
-                <div class="game-info"><div class="game-name">PING PONG</div><div class="game-cat">Arcade</div></div>
-            </div>
-            <div class="game-card" data-cat="strategy" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Tic-Tac-Toe/index.html', 'TIC TAC TOE')">
-                <div class="game-thumb t3">❌</div>
-                <div class="game-info"><div class="game-name">TIC TAC TOE</div><div class="game-cat">Strategy</div></div>
-            </div>
-            <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Whack-A-Mole-Game/index.html', 'WHACK A MOLE')">
-                <div class="game-thumb t3">🦔</div>
-                <div class="game-info"><div class="game-name">WHACK A MOLE</div><div class="game-cat">Arcade</div></div>
-            </div>
-            <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Memory-Card-Game/index.html', 'MEMORY CARDS')">
-                <div class="game-thumb t4">🃏</div>
-                <div class="game-info"><div class="game-name">MEMORY CARDS</div><div class="game-cat">Puzzle</div></div>
-            </div>
-            <div class="game-card" data-cat="word" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Hangman-Game/index.html', 'HANGMAN')">
-                <div class="game-thumb t5">🔤</div>
-                <div class="game-info"><div class="game-name">HANGMAN</div><div class="game-cat">Word</div></div>
-            </div>
-            <div class="game-card" data-cat="strategy" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Connect-Four-Game/index.html', 'CONNECT FOUR')">
-                <div class="game-thumb t3">🔴</div>
-                <div class="game-info"><div class="game-name">CONNECT FOUR</div><div class="game-cat">Strategy</div></div>
-            </div>
-            <div class="game-card" data-cat="puzzle" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Minesweeper-Game/index.html', 'MINESWEEPER')">
-                <div class="game-thumb t1">💣</div>
-                <div class="game-info"><div class="game-name">MINESWEEPER</div><div class="game-cat">Puzzle</div></div>
-            </div>
-            <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Rock-Paper-Scissors/index.html', 'ROCK PAPER SCISSORS')">
-                <div class="game-thumb t2">✊</div>
-                <div class="game-info"><div class="game-name">ROCK PAPER SCISSORS</div><div class="game-cat">Casual</div></div>
-            </div>
-            <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Simon-Says-Game/index.html', 'SIMON SAYS')">
-                <div class="game-thumb t3">🟢</div>
-                <div class="game-info"><div class="game-name">SIMON SAYS</div><div class="game-cat">Casual</div></div>
-            </div>
-            <div class="game-card" data-cat="arcade" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Breakout-Game/index.html', 'BREAKOUT')">
-                <div class="game-thumb t5">🧱</div>
-                <div class="game-info"><div class="game-name">BREAKOUT</div><div class="game-cat">Arcade</div></div>
-            </div>
-            <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Tower-Blocks/index.html', 'TOWER BLOCKS')">
-                <div class="game-thumb t4">🏗️</div>
-                <div class="game-info"><div class="game-name">TOWER BLOCKS</div><div class="game-cat">Casual</div></div>
-            </div>
-            <div class="game-card" data-cat="action" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Fruit-Slicer-Game/index.html', 'FRUIT SLICER')">
-                <div class="game-thumb t1">🍉</div>
-                <div class="game-info"><div class="game-name">FRUIT SLICER</div><div class="game-cat">Action</div></div>
-            </div>
-            <div class="game-card" data-cat="action" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Archery-Game/index.html', 'ARCHERY')">
-                <div class="game-thumb t3">🏹</div>
-                <div class="game-info"><div class="game-name">ARCHERY</div><div class="game-cat">Action</div></div>
-            </div>
-            <div class="game-card" data-cat="skill" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Speed-Typing-Game/index.html', 'SPEED TYPING')">
-                <div class="game-thumb t2">⌨️</div>
-                <div class="game-info"><div class="game-name">SPEED TYPING</div><div class="game-cat">Skill</div></div>
-            </div>
-            <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Dice-Roll-Simulator/index.html', 'DICE ROLL')">
-                <div class="game-thumb t6">🎲</div>
-                <div class="game-info"><div class="game-name">DICE ROLL</div><div class="game-cat">Casual</div></div>
-            </div>
+        <!-- STRATEGY (3) -->
+        <div class="game-card" data-cat="strategy" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Chess/index.html','CHESS')">
+            <div class="game-thumb t6">♟️</div><div class="game-info"><div class="game-name">CHESS</div><div class="game-cat">Strategy</div></div>
+        </div>
+        <div class="game-card" data-cat="strategy" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Tic-Tac-Toe/index.html','TIC TAC TOE')">
+            <div class="game-thumb t3">❌</div><div class="game-info"><div class="game-name">TIC TAC TOE</div><div class="game-cat">Strategy</div></div>
+        </div>
+        <div class="game-card" data-cat="strategy" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Connect-Four-Game/index.html','CONNECT FOUR')">
+            <div class="game-thumb t3">🔴</div><div class="game-info"><div class="game-name">CONNECT FOUR</div><div class="game-cat">Strategy</div></div>
+        </div>
+
+        <!-- ACTION (3) -->
+        <div class="game-card" data-cat="action" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Fruit-Slicer-Game/index.html','FRUIT SLICER')">
+            <div class="game-thumb t1">🍉</div><div class="game-info"><div class="game-name">FRUIT SLICER</div><div class="game-cat">Action</div></div>
+        </div>
+        <div class="game-card" data-cat="action" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Archery-Game/index.html','ARCHERY')">
+            <div class="game-thumb t3">🏹</div><div class="game-info"><div class="game-name">ARCHERY</div><div class="game-cat">Action</div></div>
+        </div>
+        <div class="game-card" data-cat="action" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Corona-Virus-Shotting/index.html','VIRUS SHOOTING')">
+            <div class="game-thumb t7">🦠</div><div class="game-info"><div class="game-name">VIRUS SHOOTING</div><div class="game-cat">Action</div></div>
+        </div>
+
+        <!-- CASUAL (5) -->
+        <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Rock-Paper-Scissors/index.html','ROCK PAPER SCISSORS')">
+            <div class="game-thumb t2">✊</div><div class="game-info"><div class="game-name">ROCK PAPER SCISSORS</div><div class="game-cat">Casual</div></div>
+        </div>
+        <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Simon-Says-Game/index.html','SIMON SAYS')">
+            <div class="game-thumb t3">🟢</div><div class="game-info"><div class="game-name">SIMON SAYS</div><div class="game-cat">Casual</div></div>
+        </div>
+        <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Tower-Blocks/index.html','TOWER BLOCKS')">
+            <div class="game-thumb t4">🏗️</div><div class="game-info"><div class="game-name">TOWER BLOCKS</div><div class="game-cat">Casual</div></div>
+        </div>
+        <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Dice-Roll-Simulator/index.html','DICE ROLL')">
+            <div class="game-thumb t6">🎲</div><div class="game-info"><div class="game-name">DICE ROLL</div><div class="game-cat">Casual</div></div>
+        </div>
+        <div class="game-card" data-cat="casual" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Quiz-Game/index.html','QUIZ GAME')">
+            <div class="game-thumb t5">❓</div><div class="game-info"><div class="game-name">QUIZ GAME</div><div class="game-cat">Casual</div></div>
+        </div>
+
+        <!-- WORD (1) -->
+        <div class="game-card" data-cat="word" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Hangman-Game/index.html','HANGMAN')">
+            <div class="game-thumb t5">🔤</div><div class="game-info"><div class="game-name">HANGMAN</div><div class="game-cat">Word</div></div>
+        </div>
+
+        <!-- SKILL (2) -->
+        <div class="game-card" data-cat="skill" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Speed-Typing-Game/index.html','SPEED TYPING')">
+            <div class="game-thumb t2">⌨️</div><div class="game-info"><div class="game-name">SPEED TYPING</div><div class="game-cat">Skill</div></div>
+        </div>
+        <div class="game-card" data-cat="skill" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Typing-Game/index.html','TYPING GAME')">
+            <div class="game-thumb t4">📝</div><div class="game-info"><div class="game-name">TYPING GAME</div><div class="game-cat">Skill</div></div>
+        </div>
+
+        <!-- NUMBER (2) -->
+        <div class="game-card" data-cat="number" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Type-Number-Guessing-Game/index.html','TYPE NUMBER GUESS')">
+            <div class="game-thumb t1">🔢</div><div class="game-info"><div class="game-name">TYPE NUMBER GUESS</div><div class="game-cat">Number</div></div>
+        </div>
+        <div class="game-card" data-cat="number" onclick="openGame('Ultimate-Collection-of-30-Interactive-Web-Games-HTML-CSS-JavaScript-Projects-main/Speak-Number-Guessing-Game/index.html','SPEAK NUMBER GUESS')">
+            <div class="game-thumb t7">🎙️</div><div class="game-info"><div class="game-name">SPEAK NUMBER GUESS</div><div class="game-cat">Number</div></div>
         </div>
     </div>
+</div>
 
-    <!-- GAME MODAL -->
-    <div class="modal" id="gameModal">
-        <div class="modal-header">
-            <div class="modal-title" id="modalTitle">GAME</div>
-            <button class="modal-close" onclick="closeGame()">✕ CLOSE</button>
-        </div>
-        <iframe id="gameFrame" src=""></iframe>
+<!-- GAME MODAL -->
+<div class="modal" id="gameModal">
+    <div class="modal-header">
+        <div class="modal-title" id="modalTitle">GAME</div>
+        <button class="modal-close" onclick="closeGame()">✕ CLOSE</button>
     </div>
+    <iframe id="gameFrame" src=""></iframe>
+</div>
 
-    <script>
-        // Open game in modal
-        function openGame(path, name) {
-            document.getElementById('gameFrame').src = path;
-            document.getElementById('modalTitle').textContent = name;
-            document.getElementById('gameModal').classList.add('open');
-        }
+<script>
+    function openGame(path, name) {
+        document.getElementById('gameFrame').src = path;
+        document.getElementById('modalTitle').textContent = name;
+        document.getElementById('gameModal').classList.add('open');
+    }
 
-        // Close game modal
-        function closeGame() {
-            document.getElementById('gameModal').classList.remove('open');
-            document.getElementById('gameFrame').src = '';
-        }
+    function closeGame() {
+        document.getElementById('gameModal').classList.remove('open');
+        document.getElementById('gameFrame').src = '';
+    }
 
-        // Filter function — used by both sidebar AND chips
-        function filterGames(category) {
-            const cards = document.querySelectorAll('.game-card');
-            const title = document.getElementById('sectionTitle');
-
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.cat === category) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            title.textContent = category === 'all' ? 'ALL GAMES' : category.toUpperCase() + ' GAMES';
-
-            // Sync sidebar active state
-            document.querySelectorAll('.nav-item').forEach(n => {
-                n.classList.toggle('active', n.dataset.filter === category);
-            });
-
-            // Sync chip active state
-            document.querySelectorAll('.chip').forEach(c => {
-                c.classList.toggle('active', c.dataset.filter === category);
-            });
-        }
-
-        // Sidebar clicks
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                filterGames(item.dataset.filter);
-            });
+    function filterGames(category) {
+        const cards = document.querySelectorAll('.game-card');
+        const title = document.getElementById('sectionTitle');
+        let count = 0;
+        cards.forEach(card => {
+            if (category === 'all' || card.dataset.cat === category) {
+                card.classList.remove('hidden'); count++;
+            } else {
+                card.classList.add('hidden');
+            }
         });
+        title.textContent = category === 'all' ? `ALL GAMES — ${count}` : `${category.toUpperCase()} GAMES — ${count}`;
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.filter === category));
+        document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.filter === category));
+    }
 
-        // Chip clicks
-        document.querySelectorAll('.chip').forEach(chip => {
-            chip.addEventListener('click', () => {
-                filterGames(chip.dataset.filter);
-            });
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeGame();
-        });
-    </script>
+    document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', () => filterGames(item.dataset.filter)));
+    document.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => filterGames(chip.dataset.filter)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeGame(); });
+</script>
 
 </body>
 </html>
